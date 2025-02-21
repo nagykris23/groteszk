@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groteszk</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nemzetiség</th>
+                <th>Szerző</th>
+                <th>Mű</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="column" rowspan="2">Orosz</td>
+                <td>Gogol</td>
+                <td class="column">A köpönyeg</td>
+            </tr>
+            <tr>
+                <td>Csehov</td>
+                <td class="column">A csinovnyik halála</td>
+            </tr>
+            <tr>
+                <td class="column">Cseh</td>
+                <td>Franz Kafka</td>
+                <td class="column">Az átváltozás</td>
+            </tr>
+            <tr>
+                <td class="column" rowspan="2">Magyar</td>
+                <td>Örkény István</td>
+                <td class="column">Egyperces Novellák</td>
+            </tr> 
+            <tr>
+                <td>József Attila</td>
+                <td class="column">Klárisok</td>
+            </tr>
+            <tr>
+                <td class="column">Svájc</td>
+                <td>Friedrich Dürrenmatt</td>
+                <td class="column">A fizikusok</td>
+            </tr>     
+        </tbody>
+    </table>
+
+    <form id="form" action="#">
+        <label for="szarmazas">Származás:</label><br>
+        <input type="text" id="szarmazas" name="szarmazas"><br><br>
+        <span id="szarmazas_error" class="error"></span><br>
+        <label for="szerzo1">1. szerző:</label><br>
+        <input type="text" id="szerzo1" name="szerzo1"><br><br>
+       <span id="szerzo1_error" class="error"></span><br>
+        <label for="szerzo1mu">1. szerző műve:</label><br>
+        <input type="text" id="szerzo1mu" name="szerzo1mu"><br><br>
+        <span id="szerzo1mu_error" class="error"></span><br>
+        <label for="szerzo2">2. szerző:</label><br>
+        <input type="text" id="szerzo2" name="szerzo2"><br><br>
+        <span id="szerzo2_error" class="error"></span><br>
+        <label for="szerzo2mu">2. szerző műve:</label><br>
+        <input type="text" id="szerzo2mu" name="szerzo2mu"><br><br>
+        <span id="szerzo2mu_error" class="error"></span><br>
+        <button>Hozzáadás</button>
+    </form>
+
+</body>
+<script src="main.js"></script>
+</html>
