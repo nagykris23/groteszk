@@ -24,6 +24,58 @@ const array = [ //táblázat adatainak létrehozása tömb formájában
         mu1: "A fizikusok", //értékadás az array negyedik elemen belül a mu1 tulajdonságnak
     }
 ];
+function creatform() {
+    // form letrehozasa
+    const form = document.createElement('form'); // form elem letrehozasa
+    form.id = 'form'; // form id beallitasa
+    form.action = '#'; // form action beallitasa
+    // mezo letrehozasa
+
+    // a form elemeinek letrehozasa
+    const fields = [
+        { label: 'Származás:', id: 'szarmazas', name: 'szarmazas' },//származás mezó    
+        { label: '1. szerző:', id: 'szerzo1', name: 'szerzo1' },//1 szerző mező
+        { label: '1. szerző műve:', id: 'szerzo1mu', name: 'szerzo1mu' }, // 1 szerzú müve
+        { label: '2. szerző:', id: 'szerzo2', name: 'szerzo2' },//2 szerzo müve
+        { label: '2. szerző műve:', id: 'szerzo2mu', name: 'szerzo2mu' }//2 szerző müve
+    ];
+    //Végigmegyünk a mezők listáján, és létrehozzuk az űrlapelemeket
+    for (const adat of fields) {
+        //Létrehozunk egy új űrlapmezőt a megfelelő címkével, azonosítóval és névvel
+        const fieldelement = createFormField(adat.label, adat.id, adat.name);
+        form.appendChild(fieldelement);//appendeéljuk a formhoz
+    }
+    // gomb letrehozasa
+    const button = document.createElement('button'); // gomb letrehozasa
+    button.innerHTML = 'Hozzáadás'; // gomb szoveg beallitasa
+    form.appendChild(button); // gomb hozzaadasa a formhoz
+    // form hozzaadasa a bodyhoz
+    document.body.appendChild(form);
+}
+
+function createFormField(labelText, inputId, inputName) {
+    const container = document.createElement('div')
+    const label = document.createElement('label'); // label letrehozasa
+    label.htmlFor = inputId; // label for attribútum beallitasa
+    label.innerHTML = labelText; // label szoveg beallitasa
+
+    const input = document.createElement('input'); // input mezo letrehozasa
+    input.type = 'text'; // input tipus beallitasa
+    input.id = inputId; // input id beallitasa
+    input.name = inputName; // input name beallitasa
+
+    const errorSpan = document.createElement('span'); // hibauzenet hely letrehozasa
+    errorSpan.id = `${inputId}_error`; // hibauzenet id beallitasa
+    errorSpan.className = 'error'; // hibauzenet osztaly beallitasa
+    // elem hozzaadasa a formhoz
+    container.appendChild(label); // label hozzaadasa
+    container.appendChild(document.createElement('br')); // uj sor hozzaadasa
+    container.appendChild(input); // input mezo hozzaadasa
+    container.appendChild(document.createElement('br')); // uj sor hozzaadasa
+    container.appendChild(errorSpan); // hibauzenet hely hozzaadasa
+    container.appendChild(document.createElement('br')); // uj sor hozzaadasa
+    return container
+}
 
 function renderMenu() {
     const headers = [
@@ -101,6 +153,8 @@ function validateForm(szarmazas, szerzo1, szerzo1mu, szerzo2, szerzo2mu) { //val
     }
     return true; //ha minden ervenyes
 }
+creatform()//meghivjuk a függvényt
+renderMenu()//meghívjuk a renderMenu függvényt
 document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault(); //megakadályozza az alapértelmezett viselkedést
 
@@ -175,8 +229,3 @@ document.getElementById('form').addEventListener('submit', function (e) {
     szerzo2muElement.value = '';
 });
 
-
-
-
-
-renderMenu(); //meghívjuk a renderMenu függvényt
