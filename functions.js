@@ -15,7 +15,7 @@ function creatform() {
     form.id = 'form'; // form id beallitasa
     form.action = '#'; // form action beallitasa
     // mezo letrehozasa
-    
+
     //Végigmegyünk a mezők listáján, és létrehozzuk az űrlapelemeket
     for (const adat of fields) {
         //Létrehozunk egy új űrlapmezőt a megfelelő címkével, azonosítóval és névvel
@@ -62,7 +62,7 @@ function createFormField(labelText, inputId, inputName) {
 /**
  * menu generálása
  */
-function renderMenu() {
+function renderMenu(array) {
     const headers = [
         { text: "Nemzetiség" },
         { text: "Szerző" },
@@ -144,29 +144,28 @@ function validateForm(szarmazas, szerzo1, szerzo1mu, szerzo2, szerzo2mu) {
     let isValid = true;
 
 
-    isValid = error('szarmazas_error', szarmazas.trim() === '' ? 'A származás kitöltése kötelező' : "");
-    isValid = error('szerzo1_error', szerzo1.trim() === '' ? 'Az első szerző kitöltése kötelező' : "");
-    isValid = error('szerzo1mu_error', szerzo1mu.trim() === '' ? 'Az első mű kitöltése kötelező' : "");
+    isValid = error('szarmazas_error', szarmazas.trim() === '' ? 'A származás kitöltése kötelező' : "")&&isValid;
+    isValid = error('szerzo1_error', szerzo1.trim() === '' ? 'Az első szerző kitöltése kötelező' : "")&&isValid;
+    isValid = error('szerzo1mu_error', szerzo1mu.trim() === '' ? 'Az első mű kitöltése kötelező' : "")&&isValid;
 
     if ((szerzo2.trim() === '' && szerzo2mu.trim() !== '') || (szerzo2.trim() !== '' && szerzo2mu.trim() === '')) {
-        isValid = error('szerzo2_error', 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező');
-        isValid = error('szerzo2mu_error', 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező');
+        isValid = error('szerzo2_error', 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező')&&isValid;
+        isValid = error('szerzo2mu_error', 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező')&&isValid;
     } else {
-        isValid = error('szerzo2_error', '');
-        isValid = error('szerzo2mu_error', '');
+        isValid = error('szerzo2_error', '')&&isValid;
+        isValid = error('szerzo2mu_error', '')&&isValid;
     }
 
     return isValid;
 }
 
 function error(elementId, errorMessage) {
-    let isValid = true
     const errorElement = document.getElementById(elementId);
     if (errorMessage) {
         errorElement.textContent = errorMessage;
         isValid = false;
     } else {
         errorElement.textContent = '';
+        return true
     }
-    return isValid
 }

@@ -26,7 +26,7 @@ const array = [ //táblázat adatainak létrehozása tömb formájában
 ];
 
 creatform()//meghivjuk a függvényt
-renderMenu()//meghívjuk a renderMenu függvénytű
+renderMenu(array)//meghívjuk a renderMenu függvénytű
 document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault(); //megakadályozza az alapértelmezett viselkedést
     
@@ -42,6 +42,7 @@ document.getElementById('form').addEventListener('submit', function (e) {
     const szerzo2Value = szerzo2Element.value; //második szerző érték
     const szerzo2muValue = szerzo2muElement.value; //második mű érték
     if (!validateForm(szarmazasValue, szerzo1Value, szerzo1muValue, szerzo2Value, szerzo2muValue)) {
+
         return
     }
 
