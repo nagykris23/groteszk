@@ -90,6 +90,17 @@ function addRowToTable(data, tbody) {
     }
 }
 
+function validateForm(szarmazas, szerzo1, szerzo1mu, szerzo2, szerzo2mu) { //validacios fuggveny letrehozasa
+    //ellenorizzuk, hogy a kotelezo mezok ki vannak-e toltve
+    if (szarmazas.trim() === '' || szerzo1.trim() === '' || szerzo1mu.trim() === '') {
+        return false; //ha valamelyik kotelezo mezo ures, nem ervenyes
+    }
+    //ellenorizzuk, hogy ha van masodik szerzo/mu, akkor mindketto ki van-e toltve
+    if ((szerzo2.trim() !== '' && szerzo2mu.trim() === '') || (szerzo2.trim() === '' && szerzo2mu.trim() !== '')) {
+        return false; //ha csak az egyik masodik mezo van kitoltve, nem ervenyes
+    }
+    return true; //ha minden ervenyes
+}
 document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault(); //megakadályozza az alapértelmezett viselkedést
 
@@ -105,6 +116,43 @@ document.getElementById('form').addEventListener('submit', function (e) {
     const szerzo2Value = szerzo2Element.value; //második szerző érték
     const szerzo2muValue = szerzo2muElement.value; //második mű érték
 
+    if (!validateForm(szarmazasValue, szerzo1Value, szerzo1muValue, szerzo2Value, szerzo2muValue)) { //form validacio
+        //ha nem ervenyes, hibauzeneteket jelenitunk meg
+        if (szarmazasValue === '') { //szarmazas ellenorzes
+            document.getElementById('szarmazas_error').textContent = 'A származás kitöltése kötelező!'; //hibauzenet
+        } else {
+            document.getElementById('szarmazas_error').textContent = ''; //hibauzenet torlese
+        }
+
+        if (szerzo1Value === '') { //elso szerzo ellenorzes
+            document.getElementById('szerzo1_error').textContent = 'Az első szerő kitöltése kötelező!'; //hibauzenet
+        } else {
+            document.getElementById('szerzo1_error').textContent = ''; //hibauzenet torlese
+        }
+
+        if (szerzo1muValue === '') { //elso szerzo muvének ellenorzes
+            document.getElementById('szerzo1mu_error').textContent = 'Az első mű kitöltése kötelező!'; //hibauzenet
+        } else {
+            document.getElementById('szerzo1mu_error').textContent = ''; //hibauzenet torlese
+        }
+
+        if ((szerzo2Value === '' && szerzo2muValue !== '') || (szerzo2Value !== '' && szerzo2muValue === '')) { //masodik szerzo es mu ellenorzes
+            document.getElementById('szerzo2_error').textContent = 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező!'; //hibauzenet
+            document.getElementById('szerzo2mu_error').textContent = 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező!'; //hibauzenet
+        } else {
+            document.getElementById('szerzo2_error').textContent = ''; //hibauzenet torlese
+            document.getElementById('szerzo2mu_error').textContent = ''; //hibauzenet torlese
+        }
+
+        return; //kilep a fuggvenybol, ha a validacio nem sikeres
+    }
+
+    // Ha a validacio sikeres, toroljuk a hibauzeneteket
+    document.getElementById('szarmazas_error').textContent = '';
+    document.getElementById('szerzo1_error').textContent = '';
+    document.getElementById('szerzo1mu_error').textContent = '';
+    document.getElementById('szerzo2_error').textContent = '';
+    document.getElementById('szerzo2mu_error').textContent = '';
     const newElement = { //új objektum
         szarmazas: szarmazasValue, //szarmazas neve
         szerzo1: szerzo1Value, //első szerző
@@ -126,5 +174,9 @@ document.getElementById('form').addEventListener('submit', function (e) {
     szerzo2Element.value = '';
     szerzo2muElement.value = '';
 });
+
+
+
+
 
 renderMenu(); //meghívjuk a renderMenu függvényt
