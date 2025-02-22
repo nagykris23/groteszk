@@ -2,12 +2,6 @@
  * form generálás
  */
 function creatform() {
-    // form letrehozasa
-    const form = document.createElement('form'); // form elem letrehozasa
-    form.id = 'form'; // form id beallitasa
-    form.action = '#'; // form action beallitasa
-    // mezo letrehozasa
-
     // a form elemeinek letrehozasa
     const fields = [
         { label: 'Származás:', id: 'szarmazas', name: 'szarmazas' },//származás mezó    
@@ -16,6 +10,12 @@ function creatform() {
         { label: '2. szerző:', id: 'szerzo2', name: 'szerzo2' },//2 szerzo müve
         { label: '2. szerző műve:', id: 'szerzo2mu', name: 'szerzo2mu' }//2 szerző müve
     ];
+    // form letrehozasa
+    const form = document.createElement('form'); // form elem letrehozasa
+    form.id = 'form'; // form id beallitasa
+    form.action = '#'; // form action beallitasa
+    // mezo letrehozasa
+    
     //Végigmegyünk a mezők listáján, és létrehozzuk az űrlapelemeket
     for (const adat of fields) {
         //Létrehozunk egy új űrlapmezőt a megfelelő címkével, azonosítóval és névvel
@@ -130,6 +130,7 @@ function addRowToTable(data, tbody) {
         row2.appendChild(row2Cell3); //cella hozzáadása a sorhoz
     }
 }
+
 /**
  * 
  * @param {string} szarmazas szarmazás
@@ -139,14 +140,33 @@ function addRowToTable(data, tbody) {
  * @param {string} szerzo2mu 2 szerzo mu értéke
  * @returns {boolean} igaz  vagy hamis lehet a vissza térése 
  */
-function validateForm(szarmazas, szerzo1, szerzo1mu, szerzo2, szerzo2mu) { //validacios fuggveny letrehozasa
-    //ellenorizzuk, hogy a kotelezo mezok ki vannak-e toltve
-    if (szarmazas.trim() === '' || szerzo1.trim() === '' || szerzo1mu.trim() === '') {
-        return false; //ha valamelyik kotelezo mezo ures, nem ervenyes
+function validateForm(szarmazas, szerzo1, szerzo1mu, szerzo2, szerzo2mu) {
+    let isValid = true;
+
+
+    isValid = error('szarmazas_error', szarmazas.trim() === '' ? 'A származás kitöltése kötelező' : "");
+    isValid = error('szerzo1_error', szerzo1.trim() === '' ? 'Az első szerző kitöltése kötelező' : "");
+    isValid = error('szerzo1mu_error', szerzo1mu.trim() === '' ? 'Az első mű kitöltése kötelező' : "");
+
+    if ((szerzo2.trim() === '' && szerzo2mu.trim() !== '') || (szerzo2.trim() !== '' && szerzo2mu.trim() === '')) {
+        isValid = error('szerzo2_error', 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező');
+        isValid = error('szerzo2mu_error', 'Ha van második szerző vagy mű, mindkettő kitöltése kötelező');
+    } else {
+        isValid = error('szerzo2_error', '');
+        isValid = error('szerzo2mu_error', '');
     }
-    //ellenorizzuk, hogy ha van masodik szerzo/mu, akkor mindketto ki van-e toltve
-    if ((szerzo2.trim() !== '' && szerzo2mu.trim() === '') || (szerzo2.trim() === '' && szerzo2mu.trim() !== '')) {
-        return false; //ha csak az egyik masodik mezo van kitoltve, nem ervenyes
+
+    return isValid;
+}
+
+function error(elementId, errorMessage) {
+    let isValid = true
+    const errorElement = document.getElementById(elementId);
+    if (errorMessage) {
+        errorElement.textContent = errorMessage;
+        isValid = false;
+    } else {
+        errorElement.textContent = '';
     }
-    return true; //ha minden ervenyes
+    return isValid
 }
